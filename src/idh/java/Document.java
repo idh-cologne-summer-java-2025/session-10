@@ -1,24 +1,21 @@
 package idh.java;
 
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.Iterator;
-import java.util.StringTokenizer; 
+import java.util.StringTokenizer;
+
+import org.apache.commons.io.IOUtils; 
 
 public class Document implements Iterable<String> {
 	String documentText;
 
 	public static Document readFromFile(File f) throws IOException {
-		FileReader fileReader = new FileReader(f);
-		int ch;
-		StringBuilder b = new StringBuilder();
-		while( (ch = fileReader.read()) != -1 ) {
-			b.append((char) ch);
-		}
-		fileReader.close();
+		
 		Document doc = new Document();
-		doc.documentText = b.toString();
+		doc.documentText = IOUtils.toString(new FileInputStream(f), Charset.defaultCharset());
 		
 		return doc;
 	}
